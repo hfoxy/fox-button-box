@@ -45,8 +45,8 @@ target_sources(fox_button_box PUBLIC
         src/main.c
         src/usb_descriptors.c
         src/button.c
-        src/buttons.c
-        include/buttons.h
+        src/gamepad.c
+        include/gamepad.h
         include/button.h
         )
 
