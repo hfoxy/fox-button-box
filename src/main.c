@@ -28,8 +28,11 @@
 #include <string.h>
 
 //#include "bsp/board_api.h"
-#include "tusb.h"
+#include <pico/multicore.h>
+#include <pico/stdio.h>
 
+#include "tusb.h"
+#include "core1_entry.h"
 #include "usb_descriptors.h"
 
 //--------------------------------------------------------------------+
@@ -41,22 +44,11 @@ void hid_task(void);
 /*------------- MAIN -------------*/
 int main(void)
 {
-  //board_init();
+  stdio_init_all();
 
-  // init device stack on configured roothub port
-  tud_init(BOARD_TUD_RHPORT);
-/*
-  if (board_init_after_tusb) {
-    board_init_after_tusb();
-  }
-*/
-  while (1)
-  {
-    tud_task(); // tinyusb device task
-
-    hid_task();
-  }
+  multicore_launch_core1(core1_entry);
 }
+
 
 //--------------------------------------------------------------------+
 // Device callbacks
@@ -177,32 +169,6 @@ static void send_hid_report(uint8_t report_id, uint32_t btn)
     break;
 
     default: break;
-  }
-}
-
-// Every 10ms, we will sent 1 report for each HID profile (keyboard, mouse etc ..)
-// tud_hid_report_complete_cb() is used to send the next report after previous one is complete
-void hid_task(void)
-{
-  // Poll every 10ms
-  const uint32_t interval_ms = 10;
-  static uint32_t start_ms = 0;
-
-  /*if ( board_millis() - start_ms < interval_ms) return; // not enough time
-  start_ms += interval_ms;
-*/
-  uint32_t const btn = 0;
-
-  // Remote wakeup
-  if ( tud_suspended() && btn )
-  {
-    // Wake up host if we are in suspend mode
-    // and REMOTE_WAKEUP feature is enabled by host
-    tud_remote_wakeup();
-  }else
-  {
-    // Send the 1st of report chain, the rest will be sent by tud_hid_report_complete_cb()
-    // send_hid_report(REPORT_ID_KEYBOARD, btn);
   }
 }
 
