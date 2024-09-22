@@ -122,6 +122,16 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
     [3].button.debounce_ms = 0,
 };
 
+button_t shifters[NUMBER_OF_SHIFTERS] = {
+    [0].id = 29,
+    [0].gpio = 15,
+    [0].debounce_ms = 0,
+
+    [1].id = 30,
+    [1].gpio = 2,
+    [1].debounce_ms = 0,
+};
+
 void gamepad_Initialise(void)
 {
     /* Configure the inital pin state as well as inputs/pull ups. */
@@ -142,6 +152,11 @@ void gamepad_Initialise(void)
     for (int i = 0; i < NUMBER_OF_ENCODERS; i++)
     {
         button_Initialise(&encoders[i].button);
+    }
+
+    for (int i = 0; i < NUMBER_OF_SHIFTERS; i++)
+    {
+        button_Initialise(&buttons[i]);
     }
 }
 
@@ -173,6 +188,11 @@ uint32_t gamepad_GetShortState(void)
     {
         encoder_t* enc = &encoders[i];
         result = result | (button_GetState(&enc->button) << (enc->button.id - 1));
+    }
+
+    for (int i = 0; i < NUMBER_OF_SHIFTERS; i++)
+    {
+        result = result | (button_GetState(&shifters[i]) << (shifters[i].id - 1));
     }
 
     return result;
