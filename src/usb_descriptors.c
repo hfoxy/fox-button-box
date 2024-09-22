@@ -210,7 +210,7 @@ char const* string_desc_arr[] =
     (const char[]){0x09, 0x04}, // 0: is supported language is English (0x0409)
     "Harry Fox", // 1: Manufacturer
     "Fox Wheel", // 2: Product
-    "000000000000",  // 3: Serials will use unique ID if possible
+    "0002",  // 3: Serials will use unique ID if possible
 };
 
 static uint16_t _desc_str[32 + 1];

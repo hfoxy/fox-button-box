@@ -51,6 +51,8 @@ int main(void)
 
   multicore_launch_core1(core1_entry);
 
+  multicore_fifo_pop_blocking();
+
   while (1)
   {
     gamepad_report_t report = build_report();
