@@ -30,6 +30,10 @@ button_t buttons[NUMBER_OF_BUTTONS] = {
 
 void buttons_Initialise(void) {
     /* Configure the initiale pin state as well as inputs/pull ups. */
+    for(int i = 0; i < NUMBER_OF_BUTTONS; i++) {
+        button_Initialise(&buttons[i]);
+    }
+
 }
 
 void buttons_GetState(button_t *buttons) {

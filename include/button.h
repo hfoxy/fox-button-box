@@ -7,3 +7,5 @@ typedef struct {
     uint8_t gpio;
     uint32_t debounce_ms;
 }button_t;
+
+void button_Initialise(button_t *button);
