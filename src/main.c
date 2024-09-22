@@ -56,6 +56,8 @@ int main(void)
 
   board_init();
 
+  buttons_Initialise();
+
   while (1)
   {
     gamepad_report_t report = build_report();
@@ -66,7 +68,7 @@ int main(void)
 gamepad_report_t build_report()
 {
   gamepad_report_t report = {
-    .buttons_a = 0b10101010,
+    .buttons_a = buttons_GetShortState(),
     .buttons_b = 0,
     .buttons_c = 0,
     .buttons_d = 0,
