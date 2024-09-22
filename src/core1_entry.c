@@ -31,9 +31,9 @@ void hid_task(gamepad_report_t *report_local)
     {
         uint32_t data_received = multicore_fifo_pop_blocking();
         report_local->buttons_a = (uint8_t)(data_received & 0xFF);
-        report_local->buttons_b = (uint8_t)((data_received >> 8) & 0xFF);
-        report_local->buttons_c = (uint8_t)((data_received >> 16) & 0xFF);
-        report_local->buttons_d = (uint8_t)((data_received >> 24) & 0xFF);
+        report_local->buttons_b = (uint8_t)(data_received >> 8 & 0xFF);
+        report_local->buttons_c = (uint8_t)(data_received >> 16 & 0xFF);
+        report_local->buttons_d = (uint8_t)(data_received >> 24 & 0xFF);
         if (tud_hid_ready()) {
             tud_hid_report(0, &report_local, sizeof(report_local));
         }
