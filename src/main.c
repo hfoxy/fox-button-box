@@ -35,7 +35,7 @@
 #include "tusb.h"
 #include "core1_entry.h"
 #include "usb_descriptors.h"
-#include "buttons.h"
+#include "gamepad.h"
 
 //--------------------------------------------------------------------+
 // MACRO CONSTANT TYPEDEF PROTYPES
@@ -56,7 +56,7 @@ int main(void)
 
   board_init();
 
-  buttons_Initialise();
+  gamepad_Initialise();
 
   while (1)
   {
@@ -68,7 +68,7 @@ int main(void)
 gamepad_report_t build_report()
 {
   gamepad_report_t report = {
-    .buttons_a = buttons_GetShortState(),
+    .buttons_a = gamepad_GetShortState(),
     .buttons_b = 0,
     .buttons_c = 0,
     .buttons_d = 0,

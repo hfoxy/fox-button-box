@@ -1,5 +1,5 @@
 
-#include "buttons.h"
+#include "gamepad.h"
 #include "button.h"
 
 /*
@@ -51,7 +51,7 @@ button_t buttons[NUMBER_OF_BUTTONS] = {
     [4].debounce_ms = 0,
 };
 
-void buttons_Initialise(void) {
+void gamepad_Initialise(void) {
     /* Configure the initiale pin state as well as inputs/pull ups. */
     for(int i = 0; i < NUMBER_OF_BUTTONS; i++) {
         button_Initialise(&buttons[i]);
@@ -59,11 +59,11 @@ void buttons_Initialise(void) {
 
 }
 
-void buttons_GetState(button_t *buttons) {
+void gamepad_GetState(button_t *buttons) {
     /* nice function to return all information about the buttons. Likely not needed. */
 }
 
-uint8_t buttons_GetShortState(void) {
+uint8_t gamepad_GetShortState(void) {
     uint8_t result = 0;
     for(int i = 0; i < NUMBER_OF_BUTTONS; i++) {
         result = result | (button_GetState(&buttons[i]) << i);
