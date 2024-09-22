@@ -28,6 +28,7 @@
 #include <string.h>
 
 //#include "bsp/board_api.h"
+#include <bsp/board.h>
 #include <pico/multicore.h>
 #include <pico/stdio.h>
 
@@ -52,6 +53,8 @@ int main(void)
   multicore_launch_core1(core1_entry);
 
   multicore_fifo_pop_blocking();
+
+  board_init();
 
   while (1)
   {
