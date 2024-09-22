@@ -10,18 +10,18 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # (note this can come from environment, CMake cache etc)
 
 # == DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==
-if(WIN32)
+if (WIN32)
     set(USERHOME $ENV{USERPROFILE})
-else()
+else ()
     set(USERHOME $ENV{HOME})
-endif()
+endif ()
 set(sdkVersion 1.5.1)
 set(toolchainVersion 13_2_Rel1)
 set(picotoolVersion 2.0.0)
 set(picoVscode ${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
 if (EXISTS ${picoVscode})
     include(${picoVscode})
-endif()
+endif ()
 # ====================================================================================
 set(PICO_BOARD none CACHE STRING "Board type")
 
@@ -37,18 +37,20 @@ pico_sdk_init()
 
 cmake_minimum_required(VERSION 3.13)
 
-add_executable(fox_button_box
-        src/core1_entry.c
-        include/core1_entry.h)
+add_executable(fox_button_box)
 
 target_sources(fox_button_box PUBLIC
         src/main.c
         src/usb_descriptors.c
+        src/core1_entry.c
+        include/core1_entry.h
         src/button.c
         src/gamepad.c
         include/gamepad.h
         include/button.h
-        )
+        src/encoder.c
+        include/encoder.h
+)
 
 # Make sure TinyUSB can find tusb_config.h
 target_include_directories(fox_button_box PUBLIC

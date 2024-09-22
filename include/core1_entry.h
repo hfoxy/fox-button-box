@@ -11,4 +11,4 @@ typedef struct
     uint8_t buttons_d;
 } gamepad_report_t;
 
-void hid_task(gamepad_report_t *report_local);
+void hid_task(gamepad_report_t* report_local);

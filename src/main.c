@@ -41,44 +41,29 @@
 // MACRO CONSTANT TYPEDEF PROTYPES
 //--------------------------------------------------------------------+
 
-gamepad_report_t build_report();
-
-void send_report(gamepad_report_t *report);
+void send_report();
 
 /*------------- MAIN -------------*/
 int main(void)
 {
-  stdio_init_all();
+    stdio_init_all();
 
-  multicore_launch_core1(core1_entry);
+    multicore_launch_core1(core1_entry);
 
-  multicore_fifo_pop_blocking();
+    multicore_fifo_pop_blocking();
 
-  board_init();
+    board_init();
 
-  gamepad_Initialise();
+    gamepad_Initialise();
 
-  while (1)
-  {
-    gamepad_report_t report = build_report();
-    send_report(&report);
-  }
+    while (1)
+    {
+        send_report();
+    }
 }
 
-gamepad_report_t build_report()
+void send_report()
 {
-  gamepad_report_t report = {
-    .buttons_a = gamepad_GetShortState(),
-    .buttons_b = 0,
-    .buttons_c = 0,
-    .buttons_d = 0,
-  };
-
-  return report;
-}
-
-void send_report(gamepad_report_t *report)
-{
-  uint32_t report_send = report->buttons_a | report->buttons_b << 8 | report->buttons_c << 16 | report->buttons_d << 24;
-  multicore_fifo_push_blocking(report_send);
+    uint32_t report = gamepad_GetShortState();
+    multicore_fifo_push_blocking(report);
 }
