@@ -35,7 +35,7 @@ void hid_task(gamepad_report_t *report_local)
         report_local->buttons_c = (uint8_t)(data_received >> 16 & 0xFF);
         report_local->buttons_d = (uint8_t)(data_received >> 24 & 0xFF);
         if (tud_hid_ready()) {
-            tud_hid_report(0, report_local, sizeof(*report_local));
+            tud_hid_report(0, report_local, sizeof(gamepad_report_t));
         }
     }
 }
