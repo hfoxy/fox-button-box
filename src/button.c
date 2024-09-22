@@ -9,5 +9,5 @@ void button_Initialise(button_t *button) {
 }
 
 uint8_t button_GetState(button_t *button) {
-    return gpio_get(button->gpio);
+    return !gpio_get(button->gpio);
 }
