@@ -34,6 +34,7 @@
 #include "tusb.h"
 #include "core1_entry.h"
 #include "usb_descriptors.h"
+#include "buttons.h"
 
 //--------------------------------------------------------------------+
 // MACRO CONSTANT TYPEDEF PROTYPES
