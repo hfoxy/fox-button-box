@@ -4,7 +4,8 @@
 
 typedef struct
 {
-    uint8_t id;
+    uint8_t id_incr;
+    uint8_t id_decr;
     uint8_t gpio_a;
     uint8_t gpio_b;
     button_t button;
