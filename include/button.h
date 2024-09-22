@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 typedef struct {
-    uint32_t button_id;
-    uint32_t button_debounce_time;
+    uint8_t id;
+    uint8_t gpio;
+    uint32_t debounce_ms;
 }button_t;
