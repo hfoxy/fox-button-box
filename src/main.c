@@ -96,7 +96,7 @@ static void send_hid_report(uint8_t report_id, uint32_t btn)
 
   switch(report_id)
   {
-    case REPORT_ID_KEYBOARD:
+    /*case REPORT_ID_KEYBOARD:
     {
       // use to avoid send multiple consecutive zero report for keyboard
       static bool has_keyboard_key = false;
@@ -146,6 +146,7 @@ static void send_hid_report(uint8_t report_id, uint32_t btn)
       }
     }
     break;
+    */
 
     case REPORT_ID_GAMEPAD:
     {
@@ -201,7 +202,7 @@ void hid_task(void)
   }else
   {
     // Send the 1st of report chain, the rest will be sent by tud_hid_report_complete_cb()
-    send_hid_report(REPORT_ID_KEYBOARD, btn);
+    // send_hid_report(REPORT_ID_KEYBOARD, btn);
   }
 }
 
@@ -241,16 +242,4 @@ uint16_t tud_hid_get_report_cb(uint8_t instance, uint8_t report_id, hid_report_t
 void tud_hid_set_report_cb(uint8_t instance, uint8_t report_id, hid_report_type_t report_type, uint8_t const* buffer, uint16_t bufsize)
 {
   (void) instance;
-
-  if (report_type == HID_REPORT_TYPE_OUTPUT)
-  {
-    // Set keyboard LED e.g Capslock, Numlock etc...
-    if (report_id == REPORT_ID_KEYBOARD)
-    {
-      // bufsize should be (at least) 1
-      if ( bufsize < 1 ) return;
-
-      uint8_t const kbd_leds = buffer[0];
-    }
-  }
 }
