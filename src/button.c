@@ -4,6 +4,7 @@
 
 void button_Initialise(button_t* button)
 {
+    gpio_init(button->gpio);
     gpio_set_input_hysteresis_enabled(button->gpio, true);
     gpio_set_dir(button->gpio, GPIO_IN);
 }

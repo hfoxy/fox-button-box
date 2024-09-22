@@ -30,7 +30,7 @@ button_t buttons[NUMBER_OF_BUTTONS] = {
 multi_switch_t multi_switches[NUMBER_OF_MULTISWITCHES] = {
     // multi switch 1
     [0].up_button.id = 7,
-    [0].up_button.gpio = 13,
+    [0].up_button.gpio = 9,
     [0].up_button.debounce_ms = 0,
 
     [0].right_button.id = 8,
@@ -42,7 +42,7 @@ multi_switch_t multi_switches[NUMBER_OF_MULTISWITCHES] = {
     [0].down_button.debounce_ms = 0,
 
     [0].left_button.id = 10,
-    [0].left_button.gpio = 9,
+    [0].left_button.gpio = 13,
     [0].left_button.debounce_ms = 0,
 
     [0].push_button.id = 11,
@@ -92,17 +92,17 @@ uint32_t gamepad_GetShortState(void)
 
     for (int i = 0; i < NUMBER_OF_BUTTONS; i++)
     {
-        result = result | (button_GetState(&buttons[i]) << (int)(&buttons[i].id - 1));
+        result = result | (button_GetState(&buttons[i]) << (int)(buttons[i].id - 1));
     }
 
     for (int i = 0; i < NUMBER_OF_MULTISWITCHES; i++)
     {
         multi_switch_t* msw = &multi_switches[i];
-        result = result | (button_GetState(&msw->up_button) << (int)(&msw->up_button.id - 1));
-        result = result | (button_GetState(&msw->right_button) << (int)(&msw->right_button.id - 1));
-        result = result | (button_GetState(&msw->down_button) << (int)(&msw->down_button.id - 1));
-        result = result | (button_GetState(&msw->left_button) << (int)(&msw->left_button.id - 1));
-        result = result | (button_GetState(&msw->push_button) << (int)(&msw->push_button.id - 1));
+        result = result | (button_GetState(&msw->up_button) << (int)(msw->up_button.id - 1));
+        result = result | (button_GetState(&msw->right_button) << (int)(msw->right_button.id - 1));
+        result = result | (button_GetState(&msw->down_button) << (int)(msw->down_button.id - 1));
+        result = result | (button_GetState(&msw->left_button) << (int)(msw->left_button.id - 1));
+        result = result | (button_GetState(&msw->push_button) << (int)(msw->push_button.id - 1));
     }
 
     return result;
