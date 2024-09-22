@@ -44,6 +44,10 @@ add_executable(dev_hid_composite
 target_sources(dev_hid_composite PUBLIC
         src/main.c
         src/usb_descriptors.c
+        src/button.c
+        src/buttons.c
+        include/buttons.h
+        include/button.h
         )
 
 # Make sure TinyUSB can find tusb_config.h
