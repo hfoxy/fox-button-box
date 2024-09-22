@@ -151,6 +151,7 @@ void gamepad_Initialise(void)
 
     for (int i = 0; i < NUMBER_OF_ENCODERS; i++)
     {
+        encoder_Initialise(&encoders[i]);
         button_Initialise(&encoders[i].button);
     }
 
@@ -188,6 +189,15 @@ uint32_t gamepad_GetShortState(void)
     {
         encoder_t* enc = &encoders[i];
         result = result | (button_GetState(&enc->button) << (enc->button.id - 1));
+
+        int8_t state = encoder_GetState(enc);
+        if (state == -1)
+        {
+            result = result | (1 << (enc->id_decr - 1));
+        } else if (state == 1)
+        {
+            result = result | (1 << (enc->id_incr - 1));
+        }
     }
 
     for (int i = 0; i < NUMBER_OF_SHIFTERS; i++)
