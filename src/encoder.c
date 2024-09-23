@@ -32,14 +32,12 @@ void encoder_Initialise(encoder_t* encoder)
 
 int8_t encoder_GetState(encoder_t* encoder)
 {
-    int8_t state = encoder->state;
+    return encoder->state;
+}
 
-    // if (to_ms_since_boot(get_absolute_time()) >= encoder->state_persist_until)
-    // {
-    //     encoder->state = 0;
-    // }
-
-    return state;
+void encoder_ResetState(encoder_t* encoder)
+{
+    encoder->state = 0;
 }
 
 void handle_rotary_state_change(uint gpio, uint32_t events)
@@ -53,46 +51,60 @@ void handle_rotary_state_change(uint gpio, uint32_t events)
     uint8_t a = gpio_get(encoder->gpio_a);
     uint8_t b = gpio_get(encoder->gpio_b);
 
-    if (encoder->pull_up)
-    {
-        a = a == 0 ? 1 : 0;
-        b = b == 0 ? 1 : 0;
-    }
-
     bool changed = false;
 
-    if (gpio == encoder->gpio_a)
+    if (encoder->last_a == 0 && encoder->last_b == 0 && a == 1 && b == 0)
     {
-        if (!encoder->cw_fall && a == 1 && b == 0)
-        {
-            encoder->cw_fall = true;
-        }
-
-        if (encoder->ccw_fall && a == 0 && b == 0)
-        {
-            encoder->cw_fall = false;
-            encoder->ccw_fall = false;
-            encoder->state = -1;
-            changed = true;
-        }
-    } else if (gpio == encoder->gpio_b)
+        encoder->rotation = 1;
+        encoder->state = 1;
+        changed = true;
+    } else if (encoder->rotation == 1 && encoder->last_a == 1 && encoder->last_b == 0 && a == 1 && b == 1)
     {
-        if (!encoder->cw_fall && a == 0 && b == 1)
-        {
-            encoder->ccw_fall = true;
-        }
-
-        if (encoder->cw_fall && a == 0 && b == 0)
-        {
-            encoder->cw_fall = false;
-            encoder->ccw_fall = false;
-            encoder->state = 1;
-            changed = true;
-        }
+        encoder->rotation = 1;
+        encoder->state = 1;
+        changed = true;
+    } else if (encoder->rotation == 1 && encoder->last_a == 1 && encoder->last_b == 1 && a == 0 && b == 1)
+    {
+        encoder->rotation = 1;
+        encoder->state = 1;
+        changed = true;
+    } /*else if (encoder->rotation == 1 && encoder->last_a == 0 && encoder->last_b == 1 && a == 0 && b == 0)
+    {
+        encoder->rotation = 1;
+        encoder->state = 1;
+        changed = true;
+        // cw rotation complete
+    }*/ else if (encoder->last_a == 0 && encoder->last_b == 0 && a == 0 && b == 1)
+    {
+        encoder->rotation = -1;
+        encoder->state = -1;
+        changed = true;
+    } else if (encoder->rotation == -1 && encoder->last_a == 0 && encoder->last_b == 1 && a == 1 && b == 1)
+    {
+        encoder->rotation = -1;
+        encoder->state = -1;
+        changed = true;
+    } else if (encoder->rotation == -1 && encoder->last_a == 1 && encoder->last_b == 1 && a == 1 && b == 0)
+    {
+        encoder->rotation = -1;
+        encoder->state = -1;
+        changed = true;
+    } /*else if (encoder->rotation == -1 && encoder->last_a == 1 && encoder->last_b == 0 && a == 0 && b == 0)
+    {
+        encoder->rotation = -1;
+        encoder->state = -1;
+        changed = true;
+    }*/ else
+    {
+        encoder->rotation = 0;
+        encoder->state = 0;
     }
 
     if (!changed)
     {
         encoder->state = 0;
     }
+
+    encoder->last_a = a;
+    encoder->last_b = b;
 }

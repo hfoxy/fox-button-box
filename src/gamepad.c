@@ -200,6 +200,8 @@ uint32_t gamepad_GetShortState(void)
         {
             result = result | (1 << (enc->id_incr - 1));
         }
+
+        encoder_ResetState(enc);
     }
 
     for (int i = 0; i < NUMBER_OF_SHIFTERS; i++)
