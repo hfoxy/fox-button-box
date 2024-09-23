@@ -1,6 +1,7 @@
 #include "gamepad.h"
 #include "button.h"
 #include "encoder.h"
+#include "multi_switch.h"
 
 button_t buttons[NUMBER_OF_BUTTONS] = {
     [0].id = 1,
@@ -30,47 +31,47 @@ button_t buttons[NUMBER_OF_BUTTONS] = {
 
 multi_switch_t multi_switches[NUMBER_OF_MULTI_SWITCHES] = {
     // multi switch 1
-    [0].up_button.id = 7,
-    [0].up_button.gpio = 9,
-    [0].up_button.debounce_ms = 0,
+    [0].up.id = 7,
+    [0].up.gpio = 9,
+    [0].up.debounce_ms = 0,
 
-    [0].right_button.id = 8,
-    [0].right_button.gpio = 10,
-    [0].right_button.debounce_ms = 0,
+    [0].right.id = 8,
+    [0].right.gpio = 10,
+    [0].right.debounce_ms = 0,
 
-    [0].down_button.id = 9,
-    [0].down_button.gpio = 11,
-    [0].down_button.debounce_ms = 0,
+    [0].down.id = 9,
+    [0].down.gpio = 11,
+    [0].down.debounce_ms = 0,
 
-    [0].left_button.id = 10,
-    [0].left_button.gpio = 13,
-    [0].left_button.debounce_ms = 0,
+    [0].left.id = 10,
+    [0].left.gpio = 13,
+    [0].left.debounce_ms = 0,
 
-    [0].push_button.id = 11,
-    [0].push_button.gpio = 12,
-    [0].push_button.debounce_ms = 0,
+    [0].push.id = 11,
+    [0].push.gpio = 12,
+    [0].push.debounce_ms = 0,
 
 
     // multi switch 2
-    [1].up_button.id = 12,
-    [1].up_button.gpio = 4,
-    [1].up_button.debounce_ms = 0,
+    [1].up.id = 12,
+    [1].up.gpio = 4,
+    [1].up.debounce_ms = 0,
 
-    [1].right_button.id = 13,
-    [1].right_button.gpio = 3,
-    [1].right_button.debounce_ms = 0,
+    [1].right.id = 13,
+    [1].right.gpio = 3,
+    [1].right.debounce_ms = 0,
 
-    [1].down_button.id = 14,
-    [1].down_button.gpio = 5,
-    [1].down_button.debounce_ms = 0,
+    [1].down.id = 14,
+    [1].down.gpio = 5,
+    [1].down.debounce_ms = 0,
 
-    [1].left_button.id = 15,
-    [1].left_button.gpio = 7,
-    [1].left_button.debounce_ms = 0,
+    [1].left.id = 15,
+    [1].left.gpio = 7,
+    [1].left.debounce_ms = 0,
 
-    [1].push_button.id = 16,
-    [1].push_button.gpio = 6,
-    [1].push_button.debounce_ms = 0,
+    [1].push.id = 16,
+    [1].push.gpio = 6,
+    [1].push.debounce_ms = 0,
 };
 
 encoder_t encoders[NUMBER_OF_ENCODERS] = {
@@ -144,11 +145,7 @@ void gamepad_Initialise(void)
 
     for (int i = 0; i < NUMBER_OF_MULTI_SWITCHES; i++)
     {
-        button_Initialise(&multi_switches[i].up_button);
-        button_Initialise(&multi_switches[i].right_button);
-        button_Initialise(&multi_switches[i].down_button);
-        button_Initialise(&multi_switches[i].left_button);
-        button_Initialise(&multi_switches[i].push_button);
+        multi_switch_Initialise(&multi_switches[i]);
     }
 
     for (int i = 0; i < NUMBER_OF_ENCODERS; i++)

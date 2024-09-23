@@ -37,7 +37,9 @@ pico_sdk_init()
 
 cmake_minimum_required(VERSION 3.13)
 
-add_executable(fox_button_box)
+add_executable(fox_button_box
+        src/multi_switch.c
+        include/multi_switch.h)
 
 target_sources(fox_button_box PUBLIC
         src/main.c
