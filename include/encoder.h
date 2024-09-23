@@ -6,6 +6,7 @@
 #include "button.h"
 
 typedef enum {
+    no_rotation,
     clockwise,
     counterclockwise,
 }direction_t;
@@ -23,7 +24,7 @@ typedef struct
     button_t button;
 
     int8_t state;
-    int8_t rotation;
+    direction_t rotation;
     uint8_t last_a;
     uint8_t last_b;
     encoder_irq_callback_t callback;

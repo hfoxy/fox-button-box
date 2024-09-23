@@ -6,6 +6,8 @@
 encoder_t* encoder_by_gpio[30] = {};
 
 void handle_rotary_state_change(uint gpio, uint32_t events);
+void encoderRisingEdgeHandler(encoder_t* encoder, uint gpio);
+void encoderFallingEdgeHandler(encoder_t* encoder, uint gpio);
 
 void encoder_Initialise(encoder_t* encoder)
 {
@@ -49,92 +51,56 @@ void handle_rotary_state_change(uint gpio, uint32_t events)
         return;
     }
 
-    uint8_t a = gpio_get(encoder->gpio_a);
-    uint8_t b = gpio_get(encoder->gpio_b);
-
-    bool changed = false;
-
     switch (events)
     {
         case GPIO_IRQ_EDGE_RISE: {
-            if(gpio == encoder->gpio_a) {
-                /* Rising edge of */
-            }
+            encoderRisingEdgeHandler(encoder, gpio);
             break;
         }
         case GPIO_IRQ_EDGE_FALL: {
-
+            encoderFallingEdgeHandler(encoder, gpio);
             break;
         }
         default: {
             return;
         }
     }
-
-    if (encoder->last_a == 0 && encoder->last_b == 0 && a == 1 && b == 0)
-    {
-        encoder->rotation = 1;
-        encoder->state = 1;
-        changed = true;
-    } else if (encoder->rotation == 1 && encoder->last_a == 1 && encoder->last_b == 0 && a == 1 && b == 1)
-    {
-        encoder->rotation = 1;
-        encoder->state = 1;
-        changed = true;
-    } else if (encoder->rotation == 1 && encoder->last_a == 1 && encoder->last_b == 1 && a == 0 && b == 1)
-    {
-        encoder->rotation = 1;
-        encoder->state = 1;
-        changed = true;
-    } /*else if (encoder->rotation == 1 && encoder->last_a == 0 && encoder->last_b == 1 && a == 0 && b == 0)
-    {
-        encoder->rotation = 1;
-        encoder->state = 1;
-        changed = true;
-        // cw rotation complete
-    }*/ else if (encoder->last_a == 0 && encoder->last_b == 0 && a == 0 && b == 1)
-    {
-        encoder->rotation = -1;
-        encoder->state = -1;
-        changed = true;
-    } else if (encoder->rotation == -1 && encoder->last_a == 0 && encoder->last_b == 1 && a == 1 && b == 1)
-    {
-        encoder->rotation = -1;
-        encoder->state = -1;
-        changed = true;
-    } else if (encoder->rotation == -1 && encoder->last_a == 1 && encoder->last_b == 1 && a == 1 && b == 0)
-    {
-        encoder->rotation = -1;
-        encoder->state = -1;
-        changed = true;
-    } /*else if (encoder->rotation == -1 && encoder->last_a == 1 && encoder->last_b == 0 && a == 0 && b == 0)
-    {
-        encoder->rotation = -1;
-        encoder->state = -1;
-        changed = true;
-    }*/ else
-    {
-        encoder->rotation = 0;
-        encoder->state = 0;
-    }
-
-    if (!changed)
-    {
-        encoder->state = 0;
-    }
-
-    encoder->last_a = a;
-    encoder->last_b = b;
 }
 
-void risingEdgeHandler(encoder_t* encoder, uint gpio) {
+void encoderRisingEdgeHandler(encoder_t* encoder, uint gpio) {
     if(gpio == encoder->gpio_a) {
         if(gpio_get(encoder->gpio_b)) {
-            encoder->rotation = 1;
+            encoder->rotation = counterclockwise;
+        }
+        else {
+            encoder->rotation = clockwise;
         }
     }
     if(gpio == encoder->gpio_b) {
-
+        if(gpio_get(encoder->gpio_a)) {
+            encoder->rotation = clockwise;
+        }
+        else {
+            encoder->rotation = counterclockwise;
+        }
     }
+}
 
+void encoderFallingEdgeHandler(encoder_t* encoder, uint gpio) {
+    if(gpio == encoder->gpio_a) {
+        if(gpio_get(encoder->gpio_b)) {
+            encoder->rotation = clockwise;
+        }
+        else {
+            encoder->rotation = counterclockwise;
+        }
+    }
+    if(gpio == encoder->gpio_b) {
+        if(gpio_get(encoder->gpio_a)) {
+            encoder->rotation = counterclockwise;
+        }
+        else {
+            encoder->rotation = clockwise;
+        }
+    }
 }
