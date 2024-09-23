@@ -6,9 +6,9 @@
 #include "button.h"
 
 typedef enum {
-    no_rotation,
-    clockwise,
-    counterclockwise,
+    counterclockwise = -1,
+    no_rotation = 0,
+    clockwise = 1,
 }direction_t;
 
 typedef void(*encoder_irq_callback_t)(direction_t direction);
@@ -23,6 +23,8 @@ typedef struct
     uint32_t debounce_ms;
     button_t button;
 
+    int8_t pulse_per_detent;
+    int8_t pulse_counter;
     int8_t state;
     direction_t rotation;
     uint8_t last_a;

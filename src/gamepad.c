@@ -83,7 +83,6 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
     [0].gpio_a = 21,
     [0].gpio_b = 22,
     [0].pull_up = true,
-
     [0].button.gpio = 23,
     [0].button.debounce_ms = 10,
 
@@ -111,6 +110,7 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
 
     [2].button.gpio = 16,
     [2].button.debounce_ms = 0,
+    [2].pulse_per_detent = 4,
 
 
     // side encoder 2
@@ -123,6 +123,8 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
 
     [3].button.gpio = 18,
     [3].button.debounce_ms = 0,
+    [3].pulse_per_detent = 4,
+
 };
 
 button_t shifters[NUMBER_OF_SHIFTERS] = {

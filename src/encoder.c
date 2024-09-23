@@ -14,6 +14,8 @@ void encoder_Initialise(encoder_t* encoder)
     /* Configure pins */
     gpio_init(encoder->gpio_a);
     gpio_init(encoder->gpio_b);
+    gpio_set_input_hysteresis_enabled(encoder->gpio_a, true);
+    gpio_set_input_hysteresis_enabled(encoder->gpio_b, true);
     gpio_set_dir(encoder->gpio_a, GPIO_IN);
     gpio_set_dir(encoder->gpio_b, GPIO_IN);
     gpio_set_pulls(encoder->gpio_a, encoder->pull_up, false);
@@ -35,18 +37,17 @@ void encoder_Initialise(encoder_t* encoder)
 
 int8_t encoder_GetState(encoder_t* encoder)
 {
-    direction_t rotation = encoder->rotation;
-    encoder->rotation = no_rotation;
+    direction_t direction = no_rotation;
 
-    switch (rotation)
-    {
-        case clockwise:
-            return 1;
-        case counterclockwise:
-            return -1;
-        default:
-            return 0;
+    if(encoder->pulse_counter > encoder->pulse_per_detent) {
+        direction = clockwise;
+        encoder->pulse_counter -= encoder->pulse_per_detent;
+    } else if (encoder->pulse_counter < -(encoder->pulse_per_detent)) {
+        direction = counterclockwise;
+        encoder->pulse_counter += encoder->pulse_per_detent;
     }
+
+    return direction;
 }
 
 void encoder_ResetState(encoder_t* encoder)
@@ -62,8 +63,8 @@ void handle_rotary_state_change(uint gpio, uint32_t events)
         return;
     }
 
-    switch (events)
-    {
+
+    switch (events) {
         case GPIO_IRQ_EDGE_RISE: {
             encoderRisingEdgeHandler(encoder, gpio);
             break;
@@ -81,18 +82,19 @@ void handle_rotary_state_change(uint gpio, uint32_t events)
 void encoderRisingEdgeHandler(encoder_t* encoder, uint gpio) {
     if(gpio == encoder->gpio_a) {
         if(gpio_get(encoder->gpio_b)) {
-            encoder->rotation = counterclockwise;
+            encoder->pulse_counter += counterclockwise;
         }
         else {
-            encoder->rotation = clockwise;
+            encoder->pulse_counter += clockwise;
         }
     }
+
     if(gpio == encoder->gpio_b) {
         if(gpio_get(encoder->gpio_a)) {
-            encoder->rotation = clockwise;
+            encoder->pulse_counter += clockwise;
         }
         else {
-            encoder->rotation = counterclockwise;
+            encoder->pulse_counter += counterclockwise;
         }
     }
 }
@@ -100,18 +102,18 @@ void encoderRisingEdgeHandler(encoder_t* encoder, uint gpio) {
 void encoderFallingEdgeHandler(encoder_t* encoder, uint gpio) {
     if(gpio == encoder->gpio_a) {
         if(gpio_get(encoder->gpio_b)) {
-            encoder->rotation = clockwise;
+            encoder->pulse_counter += clockwise;
         }
         else {
-            encoder->rotation = counterclockwise;
+            encoder->pulse_counter += counterclockwise;
         }
     }
     if(gpio == encoder->gpio_b) {
         if(gpio_get(encoder->gpio_a)) {
-            encoder->rotation = counterclockwise;
+            encoder->pulse_counter += counterclockwise;
         }
         else {
-            encoder->rotation = clockwise;
+            encoder->pulse_counter += clockwise;
         }
     }
 }
