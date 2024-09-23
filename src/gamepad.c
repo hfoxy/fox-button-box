@@ -177,11 +177,11 @@ uint32_t gamepad_GetShortState(void)
     for (int i = 0; i < NUMBER_OF_MULTI_SWITCHES; i++)
     {
         multi_switch_t* msw = &multi_switches[i];
-        result = result | (button_GetState(&msw->up_button) << (msw->up_button.id - 1));
-        result = result | (button_GetState(&msw->right_button) << (msw->right_button.id - 1));
-        result = result | (button_GetState(&msw->down_button) << (msw->down_button.id - 1));
-        result = result | (button_GetState(&msw->left_button) << (msw->left_button.id - 1));
-        result = result | (button_GetState(&msw->push_button) << (msw->push_button.id - 1));
+        result = result | (button_GetState(&msw->up) << (msw->up.id - 1));
+        result = result | (button_GetState(&msw->right) << (msw->right.id - 1));
+        result = result | (button_GetState(&msw->down) << (msw->down.id - 1));
+        result = result | (button_GetState(&msw->left) << (msw->left.id - 1));
+        result = result | (button_GetState(&msw->push) << (msw->push.id - 1));
     }
 
     for (int i = 0; i < NUMBER_OF_ENCODERS; i++)
