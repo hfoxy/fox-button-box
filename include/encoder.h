@@ -1,8 +1,16 @@
 #pragma once
 
 #include <stdbool.h>
+#include <pico/types.h>
 
 #include "button.h"
+
+typedef enum {
+    clockwise,
+    counterclockwise,
+}direction_t;
+
+typedef void(*encoder_irq_callback_t)(direction_t direction);
 
 typedef struct
 {
@@ -18,7 +26,11 @@ typedef struct
     int8_t rotation;
     uint8_t last_a;
     uint8_t last_b;
+    encoder_irq_callback_t callback;
 } encoder_t;
+
+
+
 
 void encoder_Initialise(encoder_t* button);
 
