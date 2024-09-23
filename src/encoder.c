@@ -35,7 +35,18 @@ void encoder_Initialise(encoder_t* encoder)
 
 int8_t encoder_GetState(encoder_t* encoder)
 {
-    return encoder->state;
+    direction_t rotation = encoder->rotation;
+    encoder->rotation = no_rotation;
+
+    switch (rotation)
+    {
+        case clockwise:
+            return 1;
+        case counterclockwise:
+            return -1;
+        default:
+            return 0;
+    }
 }
 
 void encoder_ResetState(encoder_t* encoder)
