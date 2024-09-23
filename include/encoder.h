@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 #include "button.h"
 
 typedef struct
@@ -8,11 +10,14 @@ typedef struct
     uint8_t id_decr;
     uint8_t gpio_a;
     uint8_t gpio_b;
+    bool pull_up;
+    uint32_t debounce_ms;
     button_t button;
 
     int8_t state;
-    uint8_t last_a;
-    uint8_t last_b;
+
+    bool ccw_fall;
+    bool cw_fall;
 } encoder_t;
 
 void encoder_Initialise(encoder_t* button);

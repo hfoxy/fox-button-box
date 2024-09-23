@@ -81,9 +81,10 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
 
     [0].gpio_a = 21,
     [0].gpio_b = 22,
+    [0].pull_up = true,
 
     [0].button.gpio = 23,
-    [0].button.debounce_ms = 0,
+    [0].button.debounce_ms = 10,
 
 
     // front encoder 2
@@ -93,9 +94,10 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
 
     [1].gpio_a = 26,
     [1].gpio_b = 27,
+    [1].pull_up = true,
 
     [1].button.gpio = 28,
-    [1].button.debounce_ms = 0,
+    [1].button.debounce_ms = 10,
 
 
     // side encoder 1

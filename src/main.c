@@ -52,8 +52,6 @@ int main(void)
 
     multicore_fifo_pop_blocking();
 
-    board_init();
-
     gamepad_Initialise();
 
     while (1)
