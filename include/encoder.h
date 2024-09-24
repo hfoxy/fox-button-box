@@ -11,8 +11,6 @@ typedef enum {
     clockwise = 1,
 }direction_t;
 
-typedef void(*encoder_irq_callback_t)(direction_t direction);
-
 typedef struct
 {
     uint8_t id_incr;
@@ -25,19 +23,12 @@ typedef struct
 
     int8_t pulse_per_detent;
     int8_t pulse_counter;
-    int8_t state;
     direction_t rotation;
-    uint8_t last_a;
-    uint8_t last_b;
-    encoder_irq_callback_t callback;
+    bool dual_interrupt;
 } encoder_t;
-
-
 
 
 void encoder_Initialise(encoder_t* button);
 
 // -1 = decr, 0 = idle, 1 = incr
 int8_t encoder_GetState(encoder_t* encoder);
-
-void encoder_ResetState(encoder_t* encoder);

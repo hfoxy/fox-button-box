@@ -85,8 +85,8 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
     [0].pull_up = true,
     [0].button.gpio = 23,
     [0].button.debounce_ms = 10,
-    [0].pulse_per_detent = 2,
-
+    [0].pulse_per_detent = 1,
+    [0].dual_interrupt = false,
 
     // front encoder 2
     [1].id_incr = 20,
@@ -99,7 +99,8 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
 
     [1].button.gpio = 28,
     [1].button.debounce_ms = 10,
-    [1].pulse_per_detent = 2,
+    [1].pulse_per_detent = 1,
+    [1].dual_interrupt = false,
 
 
     // side encoder 1
@@ -113,6 +114,7 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
     [2].button.gpio = 16,
     [2].button.debounce_ms = 0,
     [2].pulse_per_detent = 4,
+    [2].dual_interrupt = true,
 
 
     // side encoder 2
@@ -126,6 +128,7 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
     [3].button.gpio = 18,
     [3].button.debounce_ms = 0,
     [3].pulse_per_detent = 4,
+    [3].dual_interrupt = true,
 
 };
 
@@ -201,8 +204,6 @@ uint32_t gamepad_GetShortState(void)
         {
             result = result | (1 << (enc->id_incr - 1));
         }
-
-        encoder_ResetState(enc);
     }
 
     for (int i = 0; i < NUMBER_OF_SHIFTERS; i++)

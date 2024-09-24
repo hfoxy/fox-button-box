@@ -30,9 +30,11 @@ void encoder_Initialise(encoder_t* encoder)
         GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL,
         true, handle_rotary_state_change);
 
-    gpio_set_irq_enabled_with_callback(encoder->gpio_b,
-        GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL,
-        true, handle_rotary_state_change);
+    if(encoder->dual_interrupt) {
+        gpio_set_irq_enabled_with_callback(encoder->gpio_b,
+    GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL,
+    true, handle_rotary_state_change);
+    }
 }
 
 int8_t encoder_GetState(encoder_t* encoder)
@@ -41,18 +43,13 @@ int8_t encoder_GetState(encoder_t* encoder)
 
     if(encoder->pulse_counter >= encoder->pulse_per_detent) {
         direction = clockwise;
-        encoder->pulse_counter -= encoder->pulse_per_detent;
+        encoder->pulse_counter = 0;
     } else if (encoder->pulse_counter <= -(encoder->pulse_per_detent)) {
         direction = counterclockwise;
-        encoder->pulse_counter += encoder->pulse_per_detent;
+        encoder->pulse_counter = 0;
     }
 
     return direction;
-}
-
-void encoder_ResetState(encoder_t* encoder)
-{
-    encoder->state = 0;
 }
 
 void handle_rotary_state_change(uint gpio, uint32_t events)
