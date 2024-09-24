@@ -39,10 +39,10 @@ int8_t encoder_GetState(encoder_t* encoder)
 {
     direction_t direction = no_rotation;
 
-    if(encoder->pulse_counter > encoder->pulse_per_detent) {
+    if(encoder->pulse_counter >= encoder->pulse_per_detent) {
         direction = clockwise;
         encoder->pulse_counter -= encoder->pulse_per_detent;
-    } else if (encoder->pulse_counter < -(encoder->pulse_per_detent)) {
+    } else if (encoder->pulse_counter <= -(encoder->pulse_per_detent)) {
         direction = counterclockwise;
         encoder->pulse_counter += encoder->pulse_per_detent;
     }
