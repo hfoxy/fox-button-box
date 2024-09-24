@@ -76,8 +76,8 @@ multi_switch_t multi_switches[NUMBER_OF_MULTI_SWITCHES] = {
 
 encoder_t encoders[NUMBER_OF_ENCODERS] = {
     // front encoder 1
-    [0].id_incr = 17,
-    [0].id_decr = 18,
+    [0].id_incr = 18,
+    [0].id_decr = 17,
     [0].button.id = 19,
 
     [0].gpio_a = 21,
@@ -89,8 +89,8 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
     [0].dual_interrupt = false,
 
     // front encoder 2
-    [1].id_incr = 20,
-    [1].id_decr = 21,
+    [1].id_incr = 21,
+    [1].id_decr = 20,
     [1].button.id = 22,
 
     [1].gpio_a = 26,
