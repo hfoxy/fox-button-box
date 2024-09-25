@@ -83,10 +83,12 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
     [0].gpio_a = 21,
     [0].gpio_b = 22,
     [0].pull_up = true,
-    [0].button.gpio = 23,
-    [0].button.debounce_ms = 10,
+
     [0].pulse_per_detent = 1,
     [0].dual_interrupt = false,
+    [0].state_hold = 2,
+    [0].button.gpio = 23,
+    [0].button.debounce_ms = 10,
 
     // front encoder 2
     [1].id_incr = 21,
@@ -97,10 +99,11 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
     [1].gpio_b = 27,
     [1].pull_up = true,
 
-    [1].button.gpio = 28,
-    [1].button.debounce_ms = 10,
     [1].pulse_per_detent = 1,
     [1].dual_interrupt = false,
+    [1].state_hold = 2,
+    [1].button.gpio = 28,
+    [1].button.debounce_ms = 10,
 
 
     // side encoder 1
@@ -111,10 +114,11 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
     [2].gpio_a = 17,
     [2].gpio_b = 19,
 
-    [2].button.gpio = 16,
-    [2].button.debounce_ms = 0,
     [2].pulse_per_detent = 4,
     [2].dual_interrupt = true,
+    [2].state_hold = 2,
+    [2].button.gpio = 16,
+    [2].button.debounce_ms = 0,
 
 
     // side encoder 2
@@ -125,10 +129,11 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
     [3].gpio_a = 0,
     [3].gpio_b = 1,
 
-    [3].button.gpio = 18,
-    [3].button.debounce_ms = 0,
     [3].pulse_per_detent = 4,
     [3].dual_interrupt = true,
+    [2].state_hold = 2,
+    [3].button.gpio = 18,
+    [3].button.debounce_ms = 0,
 
 };
 

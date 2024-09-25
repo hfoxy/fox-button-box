@@ -19,12 +19,15 @@ typedef struct
     uint8_t gpio_b;
     bool pull_up;
     uint32_t debounce_ms;
+    uint8_t state_hold;
     button_t button;
 
     int8_t pulse_per_detent;
     int8_t pulse_counter;
     direction_t rotation;
     bool dual_interrupt;
+
+    uint8_t state_counter;
 } encoder_t;
 
 

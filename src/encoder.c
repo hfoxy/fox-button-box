@@ -43,10 +43,20 @@ int8_t encoder_GetState(encoder_t* encoder)
 
     if(encoder->pulse_counter >= encoder->pulse_per_detent) {
         direction = clockwise;
-        encoder->pulse_counter = 0;
+
+        encoder->state_counter++;
+        if (encoder->state_counter >= 2)
+        {
+            encoder->pulse_counter = 0;
+        }
     } else if (encoder->pulse_counter <= -(encoder->pulse_per_detent)) {
         direction = counterclockwise;
-        encoder->pulse_counter = 0;
+
+        encoder->state_counter++;
+        if (encoder->state_counter >= 2)
+        {
+            encoder->pulse_counter = 0;
+        }
     }
 
     return direction;
