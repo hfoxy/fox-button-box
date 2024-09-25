@@ -39,24 +39,43 @@ void encoder_Initialise(encoder_t* encoder)
 
 int8_t encoder_GetState(encoder_t* encoder)
 {
+    if (encoder->held_state_until != 0)
+    {
+        encoder->pulse_counter = 0;
+        uint32_t sinceBoot = to_ms_since_boot(get_absolute_time());
+        if (sinceBoot >= encoder->held_state_until)
+        {
+            if (encoder->held_state != no_rotation)
+            {
+                encoder->held_state_until = sinceBoot + encoder->state_hold_ms;
+                encoder->held_state = no_rotation;
+            } else
+            {
+                encoder->held_state_until = 0;
+            }
+
+            return no_rotation;
+        }
+
+        return encoder->held_state;
+    }
+
     direction_t direction = no_rotation;
 
     if(encoder->pulse_counter >= encoder->pulse_per_detent) {
         direction = clockwise;
+        encoder->pulse_counter = 0;
+        encoder->held_state = direction;
 
-        encoder->state_counter++;
-        if (encoder->state_counter >= 2)
-        {
-            encoder->pulse_counter = 0;
-        }
+        uint32_t sinceBoot = to_ms_since_boot(get_absolute_time());
+        encoder->held_state_until = sinceBoot + encoder->state_hold_ms;
     } else if (encoder->pulse_counter <= -(encoder->pulse_per_detent)) {
         direction = counterclockwise;
+        encoder->pulse_counter = 0;
+        encoder->held_state = direction;
 
-        encoder->state_counter++;
-        if (encoder->state_counter >= 2)
-        {
-            encoder->pulse_counter = 0;
-        }
+        uint32_t sinceBoot = to_ms_since_boot(get_absolute_time());
+        encoder->held_state_until = sinceBoot + encoder->state_hold_ms;
     }
 
     return direction;

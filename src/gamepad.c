@@ -86,7 +86,7 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
 
     [0].pulse_per_detent = 1,
     [0].dual_interrupt = false,
-    [0].state_hold = 2,
+    [0].state_hold_ms = 17,
     [0].button.gpio = 23,
     [0].button.debounce_ms = 10,
 
@@ -101,7 +101,7 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
 
     [1].pulse_per_detent = 1,
     [1].dual_interrupt = false,
-    [1].state_hold = 2,
+    [1].state_hold_ms = 17,
     [1].button.gpio = 28,
     [1].button.debounce_ms = 10,
 
@@ -116,7 +116,7 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
 
     [2].pulse_per_detent = 4,
     [2].dual_interrupt = true,
-    [2].state_hold = 2,
+    [2].state_hold_ms = 17,
     [2].button.gpio = 16,
     [2].button.debounce_ms = 0,
 
@@ -131,7 +131,7 @@ encoder_t encoders[NUMBER_OF_ENCODERS] = {
 
     [3].pulse_per_detent = 4,
     [3].dual_interrupt = true,
-    [2].state_hold = 2,
+    [3].state_hold_ms = 17,
     [3].button.gpio = 18,
     [3].button.debounce_ms = 0,
 
